@@ -1,0 +1,24 @@
+#!/bin/bash
+
+SECONDS=0
+MINUTES=0
+HOURS=0
+
+if [ $# -eq 1 ]
+then
+	HOURS=$1
+	SECONDS=$(echo "60 * 60 * $HOURS" | bc -l)
+elif [ $# -eq 2 ]
+then
+	HOURS=$1
+	MINUTES=$2
+	SECONDS=$(echo "60 * 60 * $HOURS + 60 * $MINUTES" | bc -l)
+else
+	HOURS=8
+        SECONDS=$(echo "60 * 60 * $HOURS" | bc -l)
+fi
+
+echo "sleeping $HOURS hours and $MINUTES minutes, altogether $SECONDS seconds"
+
+sudo rtcwake -m mem -s $SECONDS && mplayer /home/luke/Music/morning/* && firefox http://www.1077theend.com/player/popup
+
